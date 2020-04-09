@@ -1,5 +1,6 @@
 package com.wxy.buyplus.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -9,6 +10,12 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class TestController {
+    /**
+     * 1.查询最近20条数据并倒序遍历
+     * 2.倒序遍历时，通过商品标题+时间查询数据库，判断是否已有该条数据
+     * 2.1 已存在则跳过
+     * 2.2 无该数据则将商品详细详细保存在数据库，并推送商品信息至微信端
+     */
     public static void main(String[] args) throws IOException {
         System.out.println("23333");
         String url = "https://search.smzdm.com/?c=faxian&s=%E7%89%9B%E5%A5%B6&order=time";
@@ -42,7 +49,12 @@ public class TestController {
             String href = content.attr("href");
             String title = content.attr("title");
             String price = priceNode.html();
-            System.out.println("===========数据获取序号：" + i + ", 内容" + href + ", " + title + ", " + price);
+            String time = elements.get(i).getElementsByClass("feed-block-extras").get(0).childNodes().get(0).outerHtml();
+            JSONObject json = new JSONObject();
+            String onclickEvent = content.attr("onclick");
+            JSONObject type = JSONObject.parseObject(onclickEvent.substring(onclickEvent.indexOf("{"), onclickEvent.lastIndexOf("}") + 1));
+            System.out.println("===========数据获取序号：" + i + "，时间：" + time + ", 标题：" + title + "，链接：" + href + "，价格：" + price);
+
         }
     }
 }
