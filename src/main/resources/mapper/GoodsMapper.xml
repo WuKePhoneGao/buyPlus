@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wxy.buyplus.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.wxy.buyplus.model.Goods" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="release_time" property="releaseTime" jdbcType="VARCHAR" />
+    <result column="current_time" property="currentTime" jdbcType="DATE" javaType="java.util.Date"/>
+    <result column="class_i" property="classI" jdbcType="VARCHAR" />
+    <result column="class_ii" property="classIi" jdbcType="VARCHAR" />
+    <result column="class_iii" property="classIii" jdbcType="VARCHAR" />
+    <result column="class_iv" property="classIv" jdbcType="VARCHAR" />
+    <result column="mall" property="mall" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, url, price, release_time, current_time, class_i, class_ii, class_iii, 
+    class_iv, mall, brand
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from goods
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wxy.buyplus.model.Goods" >
+    insert into goods (id, title, url, 
+      price, release_time, current_time, 
+      class_i, class_ii, class_iii, 
+      class_iv, mall, brand
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{price,jdbcType=VARCHAR}, #{releaseTime,jdbcType=VARCHAR}, #{currentTime,jdbcType=DATE}, 
+      #{classI,jdbcType=VARCHAR}, #{classIi,jdbcType=VARCHAR}, #{classIii,jdbcType=VARCHAR}, 
+      #{classIv,jdbcType=VARCHAR}, #{mall,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wxy.buyplus.model.Goods" >
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="releaseTime != null" >
+        release_time,
+      </if>
+      <if test="currentTime != null" >
+        current_time,
+      </if>
+      <if test="classI != null" >
+        class_i,
+      </if>
+      <if test="classIi != null" >
+        class_ii,
+      </if>
+      <if test="classIii != null" >
+        class_iii,
+      </if>
+      <if test="classIv != null" >
+        class_iv,
+      </if>
+      <if test="mall != null" >
+        mall,
+      </if>
+      <if test="brand != null" >
+        brand,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null" >
+        #{releaseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="currentTime != null" >
+        #{currentTime,jdbcType=DATE},
+      </if>
+      <if test="classI != null" >
+        #{classI,jdbcType=VARCHAR},
+      </if>
+      <if test="classIi != null" >
+        #{classIi,jdbcType=VARCHAR},
+      </if>
+      <if test="classIii != null" >
+        #{classIii,jdbcType=VARCHAR},
+      </if>
+      <if test="classIv != null" >
+        #{classIv,jdbcType=VARCHAR},
+      </if>
+      <if test="mall != null" >
+        #{mall,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wxy.buyplus.model.Goods" >
+    update goods
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null" >
+        release_time = #{releaseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="currentTime != null" >
+        current_time = #{currentTime,jdbcType=DATE},
+      </if>
+      <if test="classI != null" >
+        class_i = #{classI,jdbcType=VARCHAR},
+      </if>
+      <if test="classIi != null" >
+        class_ii = #{classIi,jdbcType=VARCHAR},
+      </if>
+      <if test="classIii != null" >
+        class_iii = #{classIii,jdbcType=VARCHAR},
+      </if>
+      <if test="classIv != null" >
+        class_iv = #{classIv,jdbcType=VARCHAR},
+      </if>
+      <if test="mall != null" >
+        mall = #{mall,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wxy.buyplus.model.Goods" >
+    update goods
+    set title = #{title,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=VARCHAR},
+      current_time = #{currentTime,jdbcType=DATE},
+      class_i = #{classI,jdbcType=VARCHAR},
+      class_ii = #{classIi,jdbcType=VARCHAR},
+      class_iii = #{classIii,jdbcType=VARCHAR},
+      class_iv = #{classIv,jdbcType=VARCHAR},
+      mall = #{mall,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

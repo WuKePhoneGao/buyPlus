@@ -1,25 +1,30 @@
-package com.wxy.buyplus.controller;
+package com.wxy.buyplus.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wxy.buyplus.dao.GoodsMapper;
 import com.wxy.buyplus.model.Goods;
+import com.wxy.buyplus.util.IDUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
-public class TestController {
+@Service
+public class GoodsService {
+    @Autowired
+    private GoodsMapper goodsMapper;
 
-    /**
-     * 1.查询最近20条数据并倒序遍历
-     * 2.倒序遍历时，通过商品标题+时间查询数据库，判断是否已有该条数据
-     * 2.1 已存在则跳过
-     * 2.2 无该数据则将商品详细详细保存在数据库，并推送商品信息至微信端
-     */
-    public static void main(String[] args) throws IOException {
+    public String insertGoods() throws IOException, ParseException {
         System.out.println("23333");
         String url = "https://search.smzdm.com/?c=faxian&s=%E7%89%9B%E5%A5%B6&order=time";
         //获取请求链接
@@ -58,8 +63,24 @@ public class TestController {
             JSONObject type = JSONObject.parseObject(onclickEvent.substring(onclickEvent.indexOf("{"), onclickEvent.lastIndexOf("}") + 1));
             System.out.println("===========数据获取序号：" + i + "，时间：" + time + ", 标题：" + title + "，链接：" + href + "，价格：" + price);
             Goods goods = new Goods();
+            goods.setId(new IDUtil().getID());
             goods.setTitle(title);
+            goods.setUrl(href);
+            goods.setPrice(price);
+            goods.setReleaseTime(time);
+            goods.setCurrentTime(new Date());
+            goods.setClassI(type.getString("1级分类"));
+            goods.setClassIi(type.getString("2级分类"));
+            goods.setClassIii(type.getString("3级分类"));
+            goods.setClassIv(type.getString("4级分类"));
+            goods.setMall(type.getString("商城"));
+            goods.setBrand(type.getString("品牌"));
+//            List<Goods> list =  goodsMapper.getAllGoods();
+            Goods info = goodsMapper.selectByPrimaryKey("7dec8c7d-0d85-43f6-92c5-6e795d02968f");
+            goodsMapper.insert(goods);
+//
             System.out.println("233");
         }
+        return "111";
     }
 }
