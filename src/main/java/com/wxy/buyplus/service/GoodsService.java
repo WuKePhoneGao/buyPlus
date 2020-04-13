@@ -46,41 +46,60 @@ public class GoodsService {
 //        String price = priceNode.html();
         //feed-pagenation 翻页
 
+        JSONObject type = new JSONObject();
+        try {
+            for (int i = (elements.size()-1); i >= 0; i--) {
+                //获取内容节点
+                Element contentNode = elements.get(i).getElementsByClass("z-feed-img").get(0).getElementsByTag("a").get(0);
+                //获取价格节点
+                Element priceNode = elements.get(i).getElementsByClass("z-highlight").get(0);
+                //获取a标签里面的内容
+                Element content = elements.get(i).getElementsByTag("a").get(0);
 
-        for (int i = 0; i < elements.size(); i++) {
-            //获取内容节点
-            Element contentNode = elements.get(i).getElementsByClass("z-feed-img").get(0).getElementsByTag("a").get(0);
-            //获取价格节点
-            Element priceNode = elements.get(i).getElementsByClass("z-highlight").get(0);
-            //获取a标签里面的内容
-            Element content = elements.get(i).getElementsByTag("a").get(0);
-            String href = content.attr("href");
-            String title = content.attr("title");
-            String price = priceNode.html();
-            String time = elements.get(i).getElementsByClass("feed-block-extras").get(0).childNodes().get(0).outerHtml();
-            JSONObject json = new JSONObject();
-            String onclickEvent = content.attr("onclick");
-            JSONObject type = JSONObject.parseObject(onclickEvent.substring(onclickEvent.indexOf("{"), onclickEvent.lastIndexOf("}") + 1));
-            System.out.println("===========数据获取序号：" + i + "，时间：" + time + ", 标题：" + title + "，链接：" + href + "，价格：" + price);
-            Goods goods = new Goods();
-            goods.setId(new IDUtil().getID());
-            goods.setTitle(title);
-            goods.setUrl(href);
-            goods.setPrice(price);
-            goods.setReleaseTime(time);
-            goods.setCurrentTime(new Date());
-            goods.setClassI(type.getString("1级分类"));
-            goods.setClassIi(type.getString("2级分类"));
-            goods.setClassIii(type.getString("3级分类"));
-            goods.setClassIv(type.getString("4级分类"));
-            goods.setMall(type.getString("商城"));
-            goods.setBrand(type.getString("品牌"));
-//            List<Goods> list =  goodsMapper.getAllGoods();
-            Goods info = goodsMapper.selectByPrimaryKey("7dec8c7d-0d85-43f6-92c5-6e795d02968f");
-            goodsMapper.insert(goods);
-//
-            System.out.println("233");
+                //获取标题、链接、价格、发布时间
+                String title = content.attr("title");
+                String href = content.attr("href");
+                String price = priceNode.html();
+                String time = elements.get(i).getElementsByClass("feed-block-extras").get(0).childNodes().get(0).outerHtml();
+
+
+
+                //获取onclick点击事件
+                String onclickEvent = content.attr("onclick");
+
+                //将类别内容转为json
+                type = JSONObject.parseObject(onclickEvent.substring(onclickEvent.indexOf("{"), onclickEvent.lastIndexOf("}") + 1).replace("{'","{\"").replace("'}","\"}").replaceAll("':'", "\":\"").replaceAll("','","\",\"").replaceAll("':","\":").replaceAll(",'",",\""));
+//                String mainContent = onclickEvent.substring(onclickEvent.indexOf("{"), onclickEvent.lastIndexOf("}") + 1);
+//                judeMainContent(mainContent);
+//                JSONObject type = JSONObject.parseObject(mainContent);
+//                JSONObject type = JSONObject.parseObject(onclickEvent.substring(onclickEvent.indexOf("{"), onclickEvent.lastIndexOf("}") + 1));
+                System.out.println("===========数据获取序号：" + i + "，时间：" + time + ", 标题：" + title + "，链接：" + href + "，价格：" + price);
+                Goods goods = new Goods();
+                goods.setId(new IDUtil().getID());
+                goods.setTitle(title);
+                goods.setUrl(href);
+                goods.setPrice(price);
+                goods.setReleaseTime(time);
+                goods.setCurTime(new Date());
+                goods.setClassI(type.getString("1级分类"));
+                goods.setClassIi(type.getString("2级分类"));
+                goods.setClassIii(type.getString("3级分类"));
+                goods.setClassIv(type.getString("4级分类"));
+                goods.setMall(type.getString("商城"));
+                goods.setBrand(type.getString("品牌"));
+                goodsMapper.insert(goods);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return "111";
+    }
+
+    public String judeMainContent(String str) {
+        String str1 = str.replaceAll("'", "");
+        int len = str.length() - str1.length();
+        System.out.println(len);
+        return str;
     }
 }

@@ -7,7 +7,7 @@
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="VARCHAR" />
     <result column="release_time" property="releaseTime" jdbcType="VARCHAR" />
-    <result column="current_time" property="currentTime" jdbcType="DATE" javaType="java.util.Date"/>
+    <result column="cur_time" property="curTime" jdbcType="DATE" />
     <result column="class_i" property="classI" jdbcType="VARCHAR" />
     <result column="class_ii" property="classIi" jdbcType="VARCHAR" />
     <result column="class_iii" property="classIii" jdbcType="VARCHAR" />
@@ -16,8 +16,8 @@
     <result column="brand" property="brand" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, url, price, release_time, current_time, class_i, class_ii, class_iii, 
-    class_iv, mall, brand
+    id, title, url, price, release_time, cur_time, class_i, class_ii, class_iii, class_iv, 
+    mall, brand
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -31,12 +31,12 @@
   </delete>
   <insert id="insert" parameterType="com.wxy.buyplus.model.Goods" >
     insert into goods (id, title, url, 
-      price, release_time, current_time, 
+      price, release_time, cur_time, 
       class_i, class_ii, class_iii, 
       class_iv, mall, brand
       )
     values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{price,jdbcType=VARCHAR}, #{releaseTime,jdbcType=VARCHAR}, #{currentTime,jdbcType=DATE}, 
+      #{price,jdbcType=VARCHAR}, #{releaseTime,jdbcType=VARCHAR}, #{curTime,jdbcType=DATE}, 
       #{classI,jdbcType=VARCHAR}, #{classIi,jdbcType=VARCHAR}, #{classIii,jdbcType=VARCHAR}, 
       #{classIv,jdbcType=VARCHAR}, #{mall,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}
       )
@@ -59,8 +59,8 @@
       <if test="releaseTime != null" >
         release_time,
       </if>
-      <if test="currentTime != null" >
-        current_time,
+      <if test="curTime != null" >
+        cur_time,
       </if>
       <if test="classI != null" >
         class_i,
@@ -97,8 +97,8 @@
       <if test="releaseTime != null" >
         #{releaseTime,jdbcType=VARCHAR},
       </if>
-      <if test="currentTime != null" >
-        #{currentTime,jdbcType=DATE},
+      <if test="curTime != null" >
+        #{curTime,jdbcType=DATE},
       </if>
       <if test="classI != null" >
         #{classI,jdbcType=VARCHAR},
@@ -135,8 +135,8 @@
       <if test="releaseTime != null" >
         release_time = #{releaseTime,jdbcType=VARCHAR},
       </if>
-      <if test="currentTime != null" >
-        current_time = #{currentTime,jdbcType=DATE},
+      <if test="curTime != null" >
+        cur_time = #{curTime,jdbcType=DATE},
       </if>
       <if test="classI != null" >
         class_i = #{classI,jdbcType=VARCHAR},
@@ -165,7 +165,7 @@
       url = #{url,jdbcType=VARCHAR},
       price = #{price,jdbcType=VARCHAR},
       release_time = #{releaseTime,jdbcType=VARCHAR},
-      current_time = #{currentTime,jdbcType=DATE},
+      cur_time = #{curTime,jdbcType=DATE},
       class_i = #{classI,jdbcType=VARCHAR},
       class_ii = #{classIi,jdbcType=VARCHAR},
       class_iii = #{classIii,jdbcType=VARCHAR},

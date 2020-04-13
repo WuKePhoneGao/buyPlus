@@ -13,7 +13,7 @@ public class Goods {
 
     private String releaseTime;
 
-    private Date currentTime;
+    private Date curTime;
 
     private String classI;
 
@@ -67,12 +67,12 @@ public class Goods {
         this.releaseTime = releaseTime == null ? null : releaseTime.trim();
     }
 
-    public Date getCurrentTime() {
-        return currentTime;
+    public Date getCurTime() {
+        return curTime;
     }
 
-    public void setCurrentTime(Date currentTime) {
-        this.currentTime = currentTime;
+    public void setCurTime(Date curTime) {
+        this.curTime = curTime;
     }
 
     public String getClassI() {
